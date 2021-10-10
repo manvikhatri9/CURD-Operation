@@ -100,7 +100,26 @@ namespace Curd_operation
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if(Student_Id>0)
+            {
+                SqlConnection con = new SqlConnection("Data Source=LAPTOP-TB2TRJIJ;Initial Catalog=curd_operation;Integrated Security=True");
+                SqlCommand cmd = new SqlCommand("DELETE FROM  StudentRecord WHERE Student_Id = @Id", con);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@Id", this.Student_Id);
 
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                MessageBox.Show("Student deleted successfully", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                GetStudentData();
+                Reset();
+            }
+            else
+            {
+                MessageBox.Show("Please select a student to delete", "Select", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -110,6 +129,7 @@ namespace Curd_operation
 
         private void Reset()
         {
+            Student_Id = 0;
             txtName.Clear();
             txtFatherName.Clear();
             txtRollNumber.Clear();
